@@ -1,0 +1,10 @@
+/* You can add additional custom styles here */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f3f4f6; /* Light background color */
+}
+
+h1 {
+    color: #1D4ED8; /* Tailwind blue */
+    font-weight: bold;
+}

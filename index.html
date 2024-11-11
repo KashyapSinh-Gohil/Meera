@@ -13,7 +13,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-900 transition-colors duration-300" id="body">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
     <div class="flex flex-col items-center justify-center min-h-screen">
         <div class="text-center mb-8">
             <h1 class="text-6xl font-bold text-blue-600 dark:text-blue-400">MayaMeera</h1>
@@ -38,32 +38,7 @@
     <script>
         const apiKey = 'AIzaSyCs3u6kiXetfz1CB36ps5ygXJIZkzIngR0'; // Your API Key
         const cx = 'a68c996da9a304f3b'; // Your Custom Search Engine ID
-        const body = document.getElementById('body');
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeToggleText = document.getElementById('theme-toggle-text');
 
-        // Check for saved theme in localStorage
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark');
-            themeToggleText.textContent = 'Light Mode';
-        } else {
-            body.classList.remove('dark');
-            themeToggleText.textContent = 'Dark Mode';
-        }
-
-        // Theme toggle functionality
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            if (body.classList.contains('dark')) {
-                themeToggleText.textContent = 'Light Mode';
-                localStorage.setItem('theme', 'dark'); // Save dark mode preference
-            } else {
-                themeToggleText.textContent = 'Dark Mode';
-                localStorage.setItem('theme', 'light'); // Save light mode preference
-            }
-        });
-
-        // Search function
         document.getElementById('searchForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const query = document.getElementById('query').value;
@@ -91,6 +66,19 @@
                 document.getElementById('results').innerHTML = '<p class="text-red-600 dark:text-red-300">Error occurred while fetching search results.</p>';
             });
         }
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleText = document.getElementById('theme-toggle-text');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            if (body.classList.contains('dark')) {
+                themeToggleText.textContent = 'Light Mode';
+            } else {
+                themeToggleText.textContent = 'Dark Mode';
+            }
+        });
     </script>
 </body>
 </html>

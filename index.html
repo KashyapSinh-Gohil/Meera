@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Search Engine</title>
+</head>
+<body>
+    <h1>My Google Search Engine</h1>
+    <form id="searchForm">
+        <input type="text" id="query" placeholder="Search..." required />
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const apiKey = 'YOUR_API_KEY'; // Replace with your API Key
+        const cx = 'YOUR_CSE_ID'; // Replace with your Custom Search Engine ID
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            search(query);
+        });
+
+        function search(query) {
+            $.get(`https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${cx}`, function(data) {
+                let results = '<h2>Search Results:</h2>';
+                if (data.items) {
+                    data.items.forEach(item => {
+                        results += `
+                            <div>
+                                <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
+                                <p>${item.snippet}</p>
+                            </div>
+                        `;
+                    });
+                } else {
+                    results = '<p>No results found.</p>';
+                }
+                document.getElementById('results').innerHTML = results;
+            }).fail(function() {
+                document.getElementById('results').innerHTML = '<p>Error occurred while fetching search results.</p>';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,12 +10,17 @@
         body {
             font-family: 'Roboto', sans-serif;
         }
+        .glowing-border {
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="flex flex-col items-center justify-center min-h-screen relative">
         <div class="text-center mb-8">
             <h1 class="text-6xl font-bold text-blue-600 dark:text-blue-400">MayaMeera</h1>
+            <p class="text-xl text-gray-700 dark:text-gray-300 mt-2">यत्सर्व दृश्यते, तत्त्वं माया एव।</p>
         </div>
         <div class="w-full max-w-lg mb-8">
             <form id="searchForm" class="flex items-center bg-white dark:bg-gray-800 rounded-full shadow-md p-4">
@@ -27,11 +31,6 @@
             </form>
         </div>
         <div class="w-full max-w-4xl" id="results"></div>
-        <div class="mt-4">
-            <button id="theme-toggle" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 focus:outline-none">
-                <i class="fas fa-moon"></i> <span id="theme-toggle-text">Dark Mode</span>
-            </button>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -46,20 +45,47 @@
         });
 
         function search(query) {
+            let results = '';
+            if (isSpecialQuery(query)) {
+                results += generateSpecialCard(query);
+            }
+
             $.get(`https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${cx}`, function(data) {
-                let results = '<h2 class="text-2xl font-bold mb-4">Search Results for "' + query + '"</h2>';
+                if (data.items && data.items.length > 0) {
+                    const firstItem = data.items[0];
+                    const answerCard = generateAnswerCard(firstItem);
+                    results += answerCard;
+                }
+
+                results += '<h2 class="text-2xl font-bold mb-4">Search Results for "' + query + '"</h2>';
                 if (data.items) {
+                    const queryType = determineQueryType(query);
+                    if (queryType === 'place') {
+                        results += generateSpecialLink('https://www.google.com/maps/search/' + encodeURIComponent(query), 'Google Maps');
+                    } else if (queryType === 'image') {
+                        results += generateSpecialLink('https://www.pinterest.com/search/pins/?q=' + encodeURIComponent(query), 'Pinterest');
+                    } else if (queryType === 'video') {
+                        results += generateSpecialLink('https://www.youtube.com/results?search_query=' + encodeURIComponent(query), 'YouTube');
+                    } else if (queryType === 'translate') {
+                        results += generateTranslateCard(query);
+                    }
+
                     data.items.forEach(item => {
+                        const parser = new URL(item.link);
+                        const favicon = `https://www.google.com/s2/favicons?domain=${parser.hostname}`;
                         results += `
-                            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
-                                <a href="${item.link}" class="text-blue-600 dark:text-blue-400 text-xl font-semibold" target="_blank">${item.title}</a>
-                                <p class="text-gray-700 dark:text-gray-300">${item.snippet}</p>
-                                <a href="${item.link}" class="text-blue-500 dark:text-blue-300">${item.link}</a>
+                            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4 relative group">
+                                <a href="${item.link}" class="flex items-center text-blue-600 dark:text-blue-400 text-xl font-semibold" target="_blank">
+                                    <img src="${favicon}" alt="Favicon of ${parser.hostname}" class="w-5 h-5 mr-2">
+                                    ${item.title}
+                                </a>
+                                <p class="text-gray-700 dark:text-gray-300 mt-2">${item.snippet}</p>
+                                <a href="${item.link}" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">${item.link}</a>
                             </div>
                         `;
                     });
                 } else {
-                    results = '<p class="text-gray-700 dark:text-gray-300">No results found.</p>';
+                    results += '<p class="text-gray-700 dark:text-gray-300">No results found.</p>';
                 }
                 document.getElementById('results').innerHTML = results;
             }).fail(function() {
@@ -67,18 +93,99 @@
             });
         }
 
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeToggleText = document.getElementById('theme-toggle-text');
-        const body = document.body;
+        function determineQueryType(query) {
+            const placeKeywords = ['place', 'location', 'city', 'country'];
+            const imageKeywords = ['image', 'photo', 'picture'];
+            const videoKeywords = ['video', 'clip', 'movie'];
+            const translateKeywords = ['translate', 'translation', 'translator'];
 
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            if (body.classList.contains('dark')) {
-                themeToggleText.textContent = 'Light Mode';
+            if (placeKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
+                return 'place';
+            } else if (imageKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
+                return 'image';
+            } else if (videoKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
+                return 'video';
+            } else if (translateKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
+                return 'translate';
             } else {
-                themeToggleText.textContent = 'Dark Mode';
+                return 'general';
             }
-        });
+        }
+
+        function generateSpecialLink(url, text) {
+            return `
+                <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
+                    <a href="${url}" class="flex items-center text-blue-600 dark:text-blue-400 text-xl font-semibold" target="_blank">
+                        <img src="https://www.google.com/s2/favicons?domain=${new URL(url).hostname}" alt="Favicon of ${new URL(url).hostname}" class="w-5 h-5 mr-2">
+                        ${text}
+                    </a>
+                </div>
+            `;
+        }
+
+        function generateTranslateCard(query) {
+            const languages = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'hi', 'ar', 'ru', 'pt'];
+            let translateCard = `
+                <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
+                    <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Google Translate</h3>
+                    <div class="mt-2">
+            `;
+            languages.forEach(lang => {
+                translateCard += `
+                    <p class="text-gray-700 dark:text-gray-300">${query} in ${lang.toUpperCase()}: <span class="font-bold">${translateText(query, lang)}</span></p>
+                `;
+            });
+            translateCard += `
+                    </div>
+                </div>
+            `;
+            return translateCard;
+        }
+
+        function translateText(text, lang) {
+            // This is a placeholder function. In a real application, you would call an API to get the translation.
+            return text + ' (' + lang + ')';
+        }
+
+        function isSpecialQuery(query) {
+            const specialKeywords = ['kashyapsinh gohil', 'kashyap', 'sinh', 'kashyapsinh', 'gohil', 'mayameera'];
+            return specialKeywords.some(keyword => query.toLowerCase().includes(keyword));
+        }
+
+        function generateSpecialCard(query) {
+            if (query.toLowerCase().includes('mayameera')) {
+                return `
+                    <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
+                        <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">MayaMeera</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mt-2">Explore MayaMeera, a platform for all your needs.</p>
+                        <a href="https://kashyapsinh-gohil.github.io/MayaMeera/" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">Visit MayaMeera</a>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
+                        <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Mr. KashyapSinh Gohil</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mt-2">Mr. KashyapSinh Gohil is the Owner of MayaMeera.</p>
+                        <a href="https://kashyapsinh-gohil.github.io/" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">Visit Profile</a>
+                    </div>
+                `;
+            }
+        }
+
+        function generateAnswerCard(item) {
+            const parser = new URL(item.link);
+            const favicon = `https://www.google.com/s2/favicons?domain=${parser.hostname}`;
+            return `
+                <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4 glowing-border">
+                    <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Answer by MayaMeera AI</h3>
+                    <p class="text-gray-700 dark:text-gray-300 mt-2">${item.snippet}</p>
+                    <a href="${item.link}" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">
+                        <img src="${favicon}" alt="Favicon of ${parser.hostname}" class="w-5 h-5 mr-2 inline">
+                        Source: ${item.link}
+                    </a>
+                </div>
+            `;
+        }
     </script>
 </body>
 </html>

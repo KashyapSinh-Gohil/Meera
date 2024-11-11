@@ -3,16 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Search Engine</title>
+    <title>MayaMeera Search Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <h1>My Google Search Engine</h1>
-    <form id="searchForm">
-        <input type="text" id="query" placeholder="Search..." required />
-        <button type="submit">Search</button>
-    </form>
-
-    <div id="results"></div>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div class="flex flex-col items-center justify-center min-h-screen">
+        <div class="text-center mb-8">
+            <h1 class="text-6xl font-bold text-blue-600 dark:text-blue-400">MayaMeera</h1>
+        </div>
+        <div class="w-full max-w-lg mb-8">
+            <form id="searchForm" class="flex items-center bg-white dark:bg-gray-800 rounded-full shadow-md p-4">
+                <input type="text" id="query" class="flex-grow px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-l-full focus:outline-none" placeholder="Search MayaMeera..." required>
+                <button type="submit" class="bg-blue-600 text-white rounded-full px-4 py-2 ml-2 hover:bg-blue-700 dark:hover:bg-blue-500 focus:outline-none">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="w-full max-w-4xl" id="results"></div>
+        <div class="mt-4">
+            <button id="theme-toggle" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 focus:outline-none">
+                <i class="fas fa-moon"></i> <span id="theme-toggle-text">Dark Mode</span>
+            </button>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -27,24 +47,38 @@
 
         function search(query) {
             $.get(`https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${cx}`, function(data) {
-                let results = '<h2>Search Results:</h2>';
+                let results = '<h2 class="text-2xl font-bold mb-4">Search Results for "' + query + '"</h2>';
                 if (data.items) {
                     data.items.forEach(item => {
                         results += `
-                            <div>
-                                <h3><a href="${item.link}" target="_blank">${item.title}</a></h3>
-                                <p>${item.snippet}</p>
+                            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+                                <a href="${item.link}" class="text-blue-600 dark:text-blue-400 text-xl font-semibold" target="_blank">${item.title}</a>
+                                <p class="text-gray-700 dark:text-gray-300">${item.snippet}</p>
+                                <a href="${item.link}" class="text-blue-500 dark:text-blue-300">${item.link}</a>
                             </div>
                         `;
                     });
                 } else {
-                    results = '<p>No results found.</p>';
+                    results = '<p class="text-gray-700 dark:text-gray-300">No results found.</p>';
                 }
                 document.getElementById('results').innerHTML = results;
             }).fail(function() {
-                document.getElementById('results').innerHTML = '<p>Error occurred while fetching search results.</p>';
+                document.getElementById('results').innerHTML = '<p class="text-red-600 dark:text-red-300">Error occurred while fetching search results.</p>';
             });
         }
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleText = document.getElementById('theme-toggle-text');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            if (body.classList.contains('dark')) {
+                themeToggleText.textContent = 'Light Mode';
+            } else {
+                themeToggleText.textContent = 'Dark Mode';
+            }
+        });
     </script>
 </body>
 </html>

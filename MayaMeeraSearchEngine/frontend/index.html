@@ -1,1 +1,35 @@
-ECHO is off.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MayaMeera Search Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="flex flex-col items-center justify-center min-h-screen">
+        <div class="text-center mb-8">
+            <h1 class="text-6xl font-bold text-blue-600">MayaMeera</h1>
+        </div>
+        <div class="w-full max-w-lg">
+            <form action="http://localhost:8080/search" method="GET" class="flex items-center bg-white rounded-full shadow-md p-4">
+                <input type="text" name="q" class="flex-grow px-4 py-2 text-gray-700 bg-white rounded-l-full focus:outline-none" placeholder="Search MayaMeera...">
+                <button type="submit" class="bg-blue-600 text-white rounded-full px-4 py-2 ml-2 hover:bg-blue-700 focus:outline-none">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="mt-8">
+            <p class="text-gray-600">MayaMeera - The search engine for everything you need.</p>
+        </div>
+    </div>
+</body>
+</html>
+

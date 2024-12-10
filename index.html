@@ -1,191 +1,223 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MayaMeera Search Results</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>MeeraCV - Advanced Computer Vision Library</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
+        :root {
+            --bg-dark: #0a0d14;
+            --bg-card: #141824;
+            --primary-blue: #2a5298;
+            --accent-blue: #3a6fd8;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a8bd;
+            --success-green: #28a745;
         }
-        .glowing-border {
-            border: 2px solid #3b82f6;
-            box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero {
+            background: linear-gradient(45deg, #0a0d14 0%, #1e3c72 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(120deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--accent-blue);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .features {
+            padding: 4rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .code-section {
+            background-color: var(--bg-card);
+            padding: 3rem 0;
+        }
+
+        .code-block {
+            background-color: #1a1f2e;
+            padding: 2rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        pre {
+            color: var(--text-primary);
+            font-family: 'Consolas', monospace;
+        }
+
+        .version-badge {
+            background-color: var(--success-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-    <div class="flex flex-col items-center justify-center min-h-screen relative">
-        <div class="text-center mb-8">
-            <h1 class="text-6xl font-bold text-blue-600 dark:text-blue-400">MayaMeera</h1>
-            <p class="text-xl text-gray-700 dark:text-gray-300 mt-2">यत्सर्व दृश्यते, तत्त्वं माया एव।</p>
-        </div>
-        <div class="w-full max-w-lg mb-8">
-            <form id="searchForm" class="flex items-center bg-white dark:bg-gray-800 rounded-full shadow-md p-4">
-                <input type="text" id="query" class="flex-grow px-4 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 rounded-l-full focus:outline-none" placeholder="Search MayaMeera..." required>
-                <button type="submit" class="bg-blue-600 text-white rounded-full px-4 py-2 ml-2 hover:bg-blue-700 dark:hover:bg-blue-500 focus:outline-none">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </div>
-        <div class="w-full max-w-4xl" id="results"></div>
+<body>
+    <div class="hero">
+        <span class="version-badge">Version 0.2.0</span>
+        <h1>MeeraCV</h1>
+        <p>A comprehensive computer vision library designed for advanced image processing, 3D vision, and real-time applications</p>
+        <a href="https://pypi.org/project/meeracv" class="cta-button">Get Started</a>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        const apiKey = 'AIzaSyBOhjaLtFoNm8LiQWc5jq6ktgwlZwCX3LE'; // Your API Key
-        const cx = 'a68c996da9a304f3b'; // Your Custom Search Engine ID
-
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const query = document.getElementById('query').value;
-            search(query);
-        });
-
-        function search(query) {
-            let results = '';
-            if (isSpecialQuery(query)) {
-                results += generateSpecialCard(query);
-            }
-
-            $.get(`https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${cx}`, function(data) {
-                if (data.items && data.items.length > 0) {
-                    const firstItem = data.items[0];
-                    const answerCard = generateAnswerCard(firstItem);
-                    results += answerCard;
-                }
-
-                results += '<h2 class="text-2xl font-bold mb-4">Search Results for "' + query + '"</h2>';
-                if (data.items) {
-                    const queryType = determineQueryType(query);
-                    if (queryType === 'place') {
-                        results += generateSpecialLink('https://www.google.com/maps/search/' + encodeURIComponent(query), 'Google Maps');
-                    } else if (queryType === 'image') {
-                        results += generateSpecialLink('https://www.pinterest.com/search/pins/?q=' + encodeURIComponent(query), 'Pinterest');
-                    } else if (queryType === 'video') {
-                        results += generateSpecialLink('https://www.youtube.com/results?search_query=' + encodeURIComponent(query), 'YouTube');
-                    } else if (queryType === 'translate') {
-                        results += generateTranslateCard(query);
-                    }
-
-                    data.items.forEach(item => {
-                        const parser = new URL(item.link);
-                        const favicon = `https://www.google.com/s2/favicons?domain=${parser.hostname}`;
-                        results += `
-                            <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4 relative group">
-                                <a href="${item.link}" class="flex items-center text-blue-600 dark:text-blue-400 text-xl font-semibold" target="_blank">
-                                    <img src="${favicon}" alt="Favicon of ${parser.hostname}" class="w-5 h-5 mr-2">
-                                    ${item.title}
-                                </a>
-                                <p class="text-gray-700 dark:text-gray-300 mt-2">${item.snippet}</p>
-                                <a href="${item.link}" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">${item.link}</a>
-                            </div>
-                        `;
-                    });
-                } else {
-                    results += '<p class="text-gray-700 dark:text-gray-300">No results found.</p>';
-                }
-                document.getElementById('results').innerHTML = results;
-            }).fail(function() {
-                document.getElementById('results').innerHTML = '<p class="text-red-600 dark:text-red-300">Error occurred while fetching search results.</p>';
-            });
-        }
-
-        function determineQueryType(query) {
-            const placeKeywords = ['place', 'location', 'city', 'country'];
-            const imageKeywords = ['image', 'photo', 'picture'];
-            const videoKeywords = ['video', 'clip', 'movie'];
-            const translateKeywords = ['translate', 'translation', 'translator'];
-
-            if (placeKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
-                return 'place';
-            } else if (imageKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
-                return 'image';
-            } else if (videoKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
-                return 'video';
-            } else if (translateKeywords.some(keyword => query.toLowerCase().includes(keyword))) {
-                return 'translate';
-            } else {
-                return 'general';
-            }
-        }
-
-        function generateSpecialLink(url, text) {
-            return `
-                <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
-                    <a href="${url}" class="flex items-center text-blue-600 dark:text-blue-400 text-xl font-semibold" target="_blank">
-                        <img src="https://www.google.com/s2/favicons?domain=${new URL(url).hostname}" alt="Favicon of ${new URL(url).hostname}" class="w-5 h-5 mr-2">
-                        ${text}
-                    </a>
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Image Processing</h3>
+                    <p>Advanced filters, transformations, and color space conversions for precise image manipulation.</p>
                 </div>
-            `;
-        }
-
-        function generateTranslateCard(query) {
-            const languages = ['en', 'es', 'fr', 'de', 'zh', 'ja', 'hi', 'ar', 'ru', 'pt'];
-            let translateCard = `
-                <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
-                    <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Google Translate</h3>
-                    <div class="mt-2">
-            `;
-            languages.forEach(lang => {
-                translateCard += `
-                    <p class="text-gray-700 dark:text-gray-300">${query} in ${lang.toUpperCase()}: <span class="font-bold">${translateText(query, lang)}</span></p>
-                `;
-            });
-            translateCard += `
-                    </div>
+                <div class="feature-card">
+                    <h3>Video Processing</h3>
+                    <p>Real-time webcam and CCTV stream handling with efficient frame processing capabilities.</p>
                 </div>
-            `;
-            return translateCard;
-        }
-
-        function translateText(text, lang) {
-            // This is a placeholder function. In a real application, you would call an API to get the translation.
-            return text + ' (' + lang + ')';
-        }
-
-        function isSpecialQuery(query) {
-            const specialKeywords = ['kashyapsinh gohil', 'kashyap', 'sinh', 'kashyapsinh', 'gohil', 'mayameera'];
-            return specialKeywords.some(keyword => query.toLowerCase().includes(keyword));
-        }
-
-        function generateSpecialCard(query) {
-            if (query.toLowerCase().includes('mayameera')) {
-                return `
-                    <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
-                        <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">MayaMeera</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mt-2">Explore MayaMeera, a platform for all your needs.</p>
-                        <a href="https://kashyapsinh-gohil.github.io/MayaMeera/" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">Visit MayaMeera</a>
-                    </div>
-                `;
-            } else {
-                return `
-                    <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4">
-                        <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Mr. KashyapSinh Gohil</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mt-2">Mr. KashyapSinh Gohil is the Owner of MayaMeera.</p>
-                        <a href="https://kashyapsinh-gohil.github.io/" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">Visit Profile</a>
-                    </div>
-                `;
-            }
-        }
-
-        function generateAnswerCard(item) {
-            const parser = new URL(item.link);
-            const favicon = `https://www.google.com/s2/favicons?domain=${parser.hostname}`;
-            return `
-                <div class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md mb-4 glowing-border">
-                    <h3 class="text-xl font-semibold text-blue-600 dark:text-blue-400">Answer by MayaMeera AI</h3>
-                    <p class="text-gray-700 dark:text-gray-300 mt-2">${item.snippet}</p>
-                    <a href="${item.link}" class="text-blue-500 dark:text-blue-300 mt-2 block" target="_blank">
-                        <img src="${favicon}" alt="Favicon of ${parser.hostname}" class="w-5 h-5 mr-2 inline">
-                        Source: ${item.link}
-                    </a>
+                <div class="feature-card">
+                    <h3>Face Recognition</h3>
+                    <p>State-of-the-art face detection and recognition in both images and video streams.</p>
                 </div>
-            `;
-        }
-    </script>
+                <div class="feature-card">
+                    <h3>OCR Integration</h3>
+                    <p>Extract text from images with advanced Optical Character Recognition capabilities.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>3D Vision</h3>
+                    <p>Depth perception and 3D reconstruction for advanced spatial analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Gesture Recognition</h3>
+                    <p>Real-time hand and body gesture detection for interactive applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="code-section">
+        <div class="container">
+            <h2>Quick Start</h2>
+            <div class="code-block">
+                <pre>
+# Install MeeraCV
+pip install meeracv
+
+# Basic Usage
+import meeracv as mcv
+
+# Read and process an image
+img = mcv.imread('image.jpg')
+gray = mcv.cvtColor(img, mcv.COLOR_BGR2GRAY)
+blurred = mcv.GaussianBlur(gray, kernel_size=(5,5), sigma=1.0)
+mcv.imwrite('result.jpg', blurred)
+
+# Advanced Features
+from meeracv import FaceDetector, HandGestureRecognizer
+
+# Face Detection
+detector = FaceDetector()
+faces = detector.detect_faces(img)
+
+# Gesture Recognition
+gesture_recognizer = HandGestureRecognizer()
+landmarks = gesture_recognizer.get_hand_landmarks(img)
+gesture = gesture_recognizer.recognize_gesture(landmarks[0])
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 2rem; background-color: var(--bg-card);">
+        <p>Licensed under MIT License • Created by Kashyapsinh Gohil</p>
+        <p style="color: var(--text-secondary);">© 2024 MeeraCV. All rights reserved.</p>
+    </footer>
 </body>
-</html>
+</html> 

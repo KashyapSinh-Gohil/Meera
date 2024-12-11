@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeeraCV - Advanced Computer Vision Library</title>
+    <title>MeeraCV - Comprehensive Computer Vision Library</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="MeeraCV is a comprehensive computer vision library inspired by OpenCV, designed for advanced image and video processing, 3D vision, and real-time applications.">
+    <meta name="keywords" content="computer vision, image processing, video processing, face recognition, optical character recognition, 3D vision, gesture recognition, MeeraCV">
+    <meta name="author" content="Kashyapsinh Gohil">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://kashyapsinh-gohil.github.io/Meera/"> <!-- Update with your actual URL -->
+
+    <link rel="stylesheet" href="styles.css">
+
     <style>
         :root {
             --bg-dark: #0a0d14;
@@ -26,12 +36,6 @@
             background-color: var(--bg-dark);
             color: var(--text-primary);
             line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
         }
 
         .hero {
@@ -62,21 +66,6 @@
             margin-bottom: 2rem;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--accent-blue);
-            color: var(--text-primary);
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-        }
-
         .features {
             padding: 4rem 0;
         }
@@ -86,6 +75,8 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .feature-card {
@@ -109,6 +100,12 @@
             padding: 3rem 0;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
         .code-block {
             background-color: #1a1f2e;
             padding: 2rem;
@@ -122,11 +119,15 @@
             font-family: 'Consolas', monospace;
         }
 
-        .version-badge {
+        .badge {
             background-color: var(--success-green);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.9rem;
+            margin: 0.5rem;
+        }
+
+        .badges {
             margin-bottom: 2rem;
         }
 
@@ -141,83 +142,173 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .btn-animated {
+            position: relative;
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-animated::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+            z-index: 0;
+        }
+
+        .btn-animated:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-animated:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .btn-animated span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .btn-animated:hover span {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
     <div class="hero">
-        <span class="version-badge">Version 0.2.0</span>
+        <div class="badges">
+            <span class="badge">Version 0.2.1</span>
+        </div>
         <h1>MeeraCV</h1>
-        <p>A comprehensive computer vision library designed for advanced image processing, 3D vision, and real-time applications</p>
-        <a href="https://pypi.org/project/meeracv" class="cta-button">Get Started</a>
+        <p>See Beyond, Build Beyond.</p>
+        <a href="https://pypi.org/project/meeracv/" class="btn-animated">
+            <span>Go to MeeraCV on PyPI</span>
+        </a>
+        <p>A comprehensive computer vision library inspired by OpenCV.</p>
     </div>
 
     <section class="features">
         <div class="container">
+            <h1>CORE FEATURES</h1>
             <div class="features-grid">
                 <div class="feature-card">
+                    <h3>Pure Implementation</h3>
+                    <p>Built entirely from scratch without external dependencies, perfect for learning and understanding computer vision concepts.</p>
+                </div>
+                <div class="feature-card">
                     <h3>Image Processing</h3>
-                    <p>Advanced filters, transformations, and color space conversions for precise image manipulation.</p>
+                    <p>Custom image format handling, pixel-level operations, and advanced filtering algorithms.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>OCR Engine</h3>
+                    <p>Custom-built text recognition system using template matching and region detection.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Face Detection</h3>
+                    <p>Pure Python implementation of face detection and feature extraction algorithms.</p>
                 </div>
                 <div class="feature-card">
                     <h3>Video Processing</h3>
-                    <p>Real-time webcam and CCTV stream handling with efficient frame processing capabilities.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Face Recognition</h3>
-                    <p>State-of-the-art face detection and recognition in both images and video streams.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>OCR Integration</h3>
-                    <p>Extract text from images with advanced Optical Character Recognition capabilities.</p>
+                    <p>Frame capture, processing, and real-time video analysis capabilities.</p>
                 </div>
                 <div class="feature-card">
                     <h3>3D Vision</h3>
-                    <p>Depth perception and 3D reconstruction for advanced spatial analysis.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Gesture Recognition</h3>
-                    <p>Real-time hand and body gesture detection for interactive applications.</p>
+                    <p>Custom stereo vision and depth perception algorithms for 3D applications.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="code-section">
+   <section class="code-section">
         <div class="container">
-            <h2>Quick Start</h2>
-            <div class="code-block">
-                <pre>
-# Install MeeraCV
-pip install meeracv
+            <h1>Quick Start</h1>
+            
+            <h3>Installation</h3>
+            <p>To get started with MeeraCV, you need to install the library. You can do this using pip, the Python package manager. Open your terminal or command prompt and run the following command:</p>
+            <pre><code>pip install meeracv</code></pre>
 
-# Basic Usage
+            <h3>Basic Usage</h3>
+            <p>Once you have installed MeeraCV, you can start using it in your Python scripts. Below is a simple example demonstrating how to read an image, convert it to grayscale, apply Gaussian blur, and save the result:</p>
+            <pre><code>
 import meeracv as mcv
 
-# Read and process an image
+# Read an image from file
 img = mcv.imread('image.jpg')
+
+# Convert the image to grayscale
 gray = mcv.cvtColor(img, mcv.COLOR_BGR2GRAY)
+
+# Apply Gaussian blur to the grayscale image
 blurred = mcv.GaussianBlur(gray, kernel_size=(5,5), sigma=1.0)
+
+# Save the processed image to a new file
 mcv.imwrite('result.jpg', blurred)
+            </code></pre>
 
-# Advanced Features
-from meeracv import FaceDetector, HandGestureRecognizer
+            <h3>Advanced Features</h3>
+            <p>MeeraCV also provides advanced features such as face detection and gesture recognition. Below are examples of how to use these features:</p>
 
-# Face Detection
+            <h4>Face Detection</h4>
+            <p>To detect faces in an image, you can use the <code>FaceDetector</code> class. Here’s how to do it:</p>
+            <pre><code>
+from meeracv import FaceDetector
+
+# Initialize the face detector
 detector = FaceDetector()
+
+# Detect faces in the image
 faces = detector.detect_faces(img)
 
-# Gesture Recognition
+# Print the detected face coordinates
+print("Detected faces:", faces)
+            </code></pre>
+
+            <h4>Gesture Recognition</h4>
+            <p>For recognizing hand gestures, you can use the <code>HandGestureRecognizer</code> class. Here’s an example:</p>
+            <pre><code>
+from meeracv import HandGestureRecognizer
+
+# Initialize the hand gesture recognizer
 gesture_recognizer = HandGestureRecognizer()
+
+# Get hand landmarks from the image
 landmarks = gesture_recognizer.get_hand_landmarks(img)
-gesture = gesture_recognizer.recognize_gesture(landmarks[0])
-                </pre>
-            </div>
+
+# Recognize the gesture based on the landmarks
+if landmarks:
+    gesture = gesture_recognizer.recognize_gesture(landmarks[0])
+    print("Recognized gesture:", gesture)
+else:
+    print("No hands detected.")
+            </code></pre>
+
+            <h3>Conclusion</h3>
+            <p>With these simple steps, you can start using MeeraCV for your computer vision projects. Explore the library further to discover more features and capabilities!</p>
         </div>
     </section>
-
-    <footer style="text-align: center; padding: 2rem; background-color: var(--bg-card);">
-        <p>Licensed under MIT License • Created by Kashyapsinh Gohil</p>
+    
+    <footer style="text-align: center; padding: 2rem; background-color: var(--bg-card);"><h3>k.agohil000@gmail.com</h3>
+        <p>Licensed under Custom License • Created by Kashyapsinh Gohil</p>
         <p style="color: var(--text-secondary);">© 2024 MeeraCV. All rights reserved.</p>
     </footer>
 </body>
-</html> 
+</html>

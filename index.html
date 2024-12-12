@@ -161,6 +161,22 @@
             color: #ffffff;
         }
 
+        .btn-download {
+            background: var(--success-green);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn-download:hover {
+            background: var(--accent-blue);
+        }
+
         footer {
             text-align: center;
             padding: 2rem;
@@ -190,6 +206,7 @@
         <button class="btn-animated" onclick="copyInstallCommand()">
             <span>pip install Solveit</span>
         </button>
+        <a class="btn-download" href="https://github.com/KashyapSinh-Gohil/Solveit-Web/blob/main/Solveit_User_Guide.pdf" target="_blank">Download User Guide</a>
     </div>
 
     <section class="features">
@@ -246,4 +263,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
